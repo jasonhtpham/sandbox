@@ -14,7 +14,6 @@ services:
         BOOTSTRAP_URL: "${NETWORK_BOOTSTRAP_URL}"
         GENESIS_FILE: "${NETWORK_GENESIS_FILE}"
         TEMPLATE: "${NETWORK_TEMPLATE:-images/algod/template.json}"
-        NETWORK_NUM_ROUNDS: "${NETWORK_NUM_ROUNDS:-30000}"
         TOKEN: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         ALGOD_PORT: "4001"
         KMD_PORT: "4002"
@@ -23,6 +22,10 @@ services:
       - 4001:4001
       - 4002:4002
       - 9392:9392
+    volumes:
+      - type: bind
+        source: ../pyteal-prac
+        target: /data
 
   indexer:
     container_name: "algorand-sandbox-indexer"
@@ -43,10 +46,10 @@ services:
       CONNECTION_STRING: "host=indexer-db port=5432 user=algorand password=algorand dbname=indexer_db sslmode=disable"
       ALGOD_ADDR: "algod:4001"
       ALGOD_TOKEN: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-      INDEXER_ENABLE_ALL_PARAMETERS: "${INDEXER_ENABLE_ALL_PARAMETERS:-false}"
     depends_on:
       - indexer-db
       - algod
+
   indexer-db:
     image: "postgres:13-alpine"
     container_name: "algorand-sandbox-postgres"
