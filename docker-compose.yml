@@ -23,7 +23,7 @@ services:
       - 4002:4002
       - 9392:9392
     volumes:
-      - type: bind
+      - type: volume
         source: ../pyteal-prac
         target: /data
 
