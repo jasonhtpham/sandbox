@@ -24,7 +24,7 @@ services:
       - 9392:9392
     volumes:
       - type: bind
-        source: ../contracts
+        source: ../pyteal-prac
         target: /data
 
   indexer:
